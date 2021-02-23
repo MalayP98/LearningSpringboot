@@ -1,3 +1,4 @@
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -11,11 +12,17 @@
 
 <body>
 	<div class="container">
-		<form method="post">
-			Todo : <input type="text", name="todo" required="required" />
-			Description : <input type="text", name="description" required="required" />
-			<input type="submit" />
-		</form>
+		<form:form method="post">
+			<fieldset class="form-group">
+				<label>Todo</label>
+				<input type="text", name="todo" required="required" class="form-control" />
+			</fieldset>
+			<fieldset class="form-group">
+				<label>Description</label>
+				<input type="text", name="todo" required="required" class="form-control" />
+			</fieldset>
+			<button type="submit", class="btn btn-success">ADD</button>
+		</form:form>
 	</div>
 	
 </body>
