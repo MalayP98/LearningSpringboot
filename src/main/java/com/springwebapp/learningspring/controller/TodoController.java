@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.springwebapp.learningspring.models.Todo;
 import com.springwebapp.learningspring.services.TodoService;
 
 @Controller
@@ -26,7 +27,8 @@ public class TodoController {
 	}
 	
 	@RequestMapping(value="/add-todo", method=RequestMethod.GET)
-	public String addTodoPage() {
+	public String addTodoPage(ModelMap model) {
+		model.addAttribute("bean", new Todo(0, (String)model.get("name"), "", "", (new Date()).toString(), (new Time()).toString(), false));
 		return "add-todo";
 	}
 
@@ -36,9 +38,15 @@ public class TodoController {
 		return "redirect:/todo-list";
 	}
 	
+	// @RequestMapping(value="/add-todo", method=RequestMethod.POST)
+	// public String addTodo(ModelMap model, @RequestParam String todo, @RequestParam String description) {
+	// 	todoService.addTodo((String)model.get("name"), todo, description, (new Date()).toString(), (new Time()).toString());
+	// 	return "redirect:/todo-list";
+	// }
+
 	@RequestMapping(value="/add-todo", method=RequestMethod.POST)
-	public String addTodo(ModelMap model, @RequestParam String todo, @RequestParam String description) {
-		todoService.addTodo((String)model.get("name"), todo, description, (new Date()).toString(), (new Time()).toString());
+	public String addTodo(ModelMap model, Todo todo) {
+		todoService.addTodo((String)model.get("name"), todo.getTodo(), todo.getDesc(), todo.getCurr_date(), todo.getCurr_time());
 		return "redirect:/todo-list";
 	}
 	

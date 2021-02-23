@@ -13,7 +13,7 @@ public class Todo {
 	private String curr_date;
 	private boolean isComplete;
 	
-	public Todo() {}
+	public Todo() { super(); }
 
 	public Todo(int id, String user, String todo, String desc, String curr_time, String curr_date, boolean isComplete) {
 		super();
