@@ -12,16 +12,16 @@
 
 <body>
 	<div class="container">
-		<form:form method="post" modelAttribute="bean">
+		<form:form method="post" modelAttribute="todo">
 			<fieldset class="form-group">
 				<form:label path="todo">Todo</form:label>
 				<form:input path="todo" type="text" required="required" class="form-control" />
-				<form:errors path="todo"/>
+				<form:errors path="todo" cssClass="text-warning"/>
 			</fieldset>
 			<fieldset class="form-group">
 				<form:label path="desc">Description</form:label>
 				<form:input type="text" path="desc" required="required" class="form-control" />
-				<form:errors path="desc"/>
+				<form:errors path="desc" cssClass="text-warning"/>
 			</fieldset>
 			<button type="submit", class="btn btn-success">ADD</button>
 		</form:form>

@@ -32,7 +32,7 @@ public class TodoController {
 	
 	@RequestMapping(value="/add-todo", method=RequestMethod.GET)
 	public String addTodoPage(ModelMap model) {
-		model.addAttribute("bean", new Todo(0, (String)model.get("name"), "", "", (new Date()).toString(), (new Time()).toString(), false));
+		model.addAttribute("todo", new Todo(0, (String)model.get("name"), "", "", (new Date()).toString(), (new Time()).toString(), false));
 		return "add-todo";
 	}
 
@@ -44,9 +44,7 @@ public class TodoController {
 
 	@RequestMapping(value="/add-todo", method=RequestMethod.POST)
 	public String addTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
-		if(result.hasErrors()){
-			return "redirect:/add-todo";
-		}
+		if(result.hasErrors()) return "redirect:/add-todo";
 		todoService.addTodo((String)model.get("name"), todo.getTodo(), todo.getDesc(), todo.getCurr_date(), todo.getCurr_time());
 		return "redirect:/todo-list";
 	}
