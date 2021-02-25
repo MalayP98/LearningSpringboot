@@ -1,5 +1,7 @@
 package com.springwebapp.learningspring.models;
 
+import javax.validation.constraints.Size;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -7,7 +9,11 @@ public class Todo {
 	
 	private int id;
 	private String user;
+
+	@Size(min=5, message="Enter atleast 5 characters")
 	private String todo;
+
+	@Size(min=10, message = "Enter atleast 10 characters")
 	private String desc;
 	private String curr_time;
 	private String curr_date;

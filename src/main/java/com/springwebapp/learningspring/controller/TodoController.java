@@ -1,10 +1,14 @@
 package com.springwebapp.learningspring.controller;
 
 import java.util.Date;
+
+import javax.validation.Valid;
+
 import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,7 +26,7 @@ public class TodoController {
 	
 	@RequestMapping(value="/todo-list", method=RequestMethod.GET)
 	public String showList(ModelMap model){
-		model.put("todoList", todoService.showTodos("Malay Pandey"));
+		model.put("todoList", todoService.showTodos((String)model.get("name")));
 		return "todo-list";
 	}
 	
@@ -37,15 +41,12 @@ public class TodoController {
 		todoService.delete(id);
 		return "redirect:/todo-list";
 	}
-	
-	// @RequestMapping(value="/add-todo", method=RequestMethod.POST)
-	// public String addTodo(ModelMap model, @RequestParam String todo, @RequestParam String description) {
-	// 	todoService.addTodo((String)model.get("name"), todo, description, (new Date()).toString(), (new Time()).toString());
-	// 	return "redirect:/todo-list";
-	// }
 
 	@RequestMapping(value="/add-todo", method=RequestMethod.POST)
-	public String addTodo(ModelMap model, Todo todo) {
+	public String addTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
+		if(result.hasErrors()){
+			return "redirect:/add-todo";
+		}
 		todoService.addTodo((String)model.get("name"), todo.getTodo(), todo.getDesc(), todo.getCurr_date(), todo.getCurr_time());
 		return "redirect:/todo-list";
 	}
