@@ -20,7 +20,8 @@
 						<th>Todo</th>
 						<th>Description</th>
 						<th>Date</th>
-						<th>Delete</th>
+						<th></th>
+						<th></th>
 					</tr>
 				</thead>
 				<br/>
@@ -30,6 +31,7 @@
 							<td>${todo.todo}</td>
 							<td>${todo.desc}</td>
 							<td>${todo.curr_date}</td>
+							<td><a type="button" class="btn btn-success" href="/update-todo?id=${todo.id}">UPDATE</a></td>
 							<td><a type="button" class="btn btn-warning" href="/delete-todo?id=${todo.id}">DELETE</a></td>
 						</tr>
 					</c:forEach>

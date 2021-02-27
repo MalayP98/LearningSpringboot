@@ -90,7 +90,7 @@ public class Todo {
 	
 	@Override
 	public String toString() {
-		return "Todo [id = " + id + "user = " + user + ", todo=" + todo + ", desc=" + desc + ", curr_time=" + curr_time + ", curr_date=" + curr_date
+		return "Todo [id = " + id + ", user = " + user + ", todo=" + todo + ", desc=" + desc + ", curr_time=" + curr_time + ", curr_date=" + curr_date
 				+ ", isComplete=" + isComplete + "]";
 	}
 }

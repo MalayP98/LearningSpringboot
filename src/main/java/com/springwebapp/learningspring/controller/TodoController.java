@@ -1,6 +1,7 @@
 package com.springwebapp.learningspring.controller;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -26,7 +27,8 @@ public class TodoController {
 	
 	@RequestMapping(value="/todo-list", method=RequestMethod.GET)
 	public String showList(ModelMap model){
-		model.put("todoList", todoService.showTodos((String)model.get("name")));
+		List<Todo> todoList = todoService.showTodos((String)model.get("name"));
+		model.addAttribute("todoList", todoList);
 		return "todo-list";
 	}
 	
@@ -46,6 +48,22 @@ public class TodoController {
 	public String addTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
 		if(result.hasErrors()) return "redirect:/add-todo";
 		todoService.addTodo((String)model.get("name"), todo.getTodo(), todo.getDesc(), todo.getCurr_date(), todo.getCurr_time());
+		return "redirect:/todo-list";
+	}
+
+	@RequestMapping(value="update-todo", method=RequestMethod.GET)
+	public String update(ModelMap model, int id){
+		Todo todo = todoService.updateTodo(id);
+		System.out.println("Todo being sent to the form is = " + todo);
+		model.addAttribute("todo", todo);
+		return "add-todo";
+	}
+
+	@RequestMapping(value="update-todo", method=RequestMethod.POST)
+	public String updateTodo(ModelMap model, @Valid Todo todo, BindingResult result){
+		if(result.hasErrors()) return "redirect:/add-todo";
+		todo.setUser((String) model.get("name"));
+		todoService.updateTodo(todo);
 		return "redirect:/todo-list";
 	}
 	

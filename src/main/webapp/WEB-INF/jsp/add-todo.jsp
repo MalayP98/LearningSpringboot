@@ -13,6 +13,7 @@
 <body>
 	<div class="container">
 		<form:form method="post" modelAttribute="todo">
+			<form:hidden path="id"/>
 			<fieldset class="form-group">
 				<form:label path="todo">Todo</form:label>
 				<form:input path="todo" type="text" required="required" class="form-control" />
