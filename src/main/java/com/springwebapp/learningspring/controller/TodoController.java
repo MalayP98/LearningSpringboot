@@ -8,6 +8,8 @@ import javax.validation.Valid;
 
 import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -30,18 +32,22 @@ public class TodoController {
 	
 	@RequestMapping(value="/todo-list", method=RequestMethod.GET)
 	public String showList(ModelMap model){
-		List<Todo> todoList = todoService.showTodos(getUsername(model));
+		List<Todo> todoList = todoService.showTodos(getUsername());
 		model.addAttribute("todoList", todoList);
 		return "todo-list";
 	}
 
-	private String getUsername(ModelMap model) {
-		return (String)model.get("name");
+	private String getUsername() {
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if(principal instanceof UserDetails){
+			return ((UserDetails)principal).getUsername();
+		}
+		return principal.toString();
 	}
 	
 	@RequestMapping(value="/add-todo", method=RequestMethod.GET)
 	public String addTodoPage(ModelMap model) {
-		model.addAttribute("todo", new Todo(0, getUsername(model), "", "", "" , "", false));
+		model.addAttribute("todo", new Todo(0, getUsername(), "", "", "" , "", false));
 		return "add-todo";
 	}
 
@@ -54,7 +60,7 @@ public class TodoController {
 	@RequestMapping(value="/add-todo", method=RequestMethod.POST)
 	public String addTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
 		if(result.hasErrors()) return "redirect:/add-todo";
-		todoService.addTodo(getUsername(model), todo.getTodo(), todo.getDesc(), sdf.format(new Date()), (new Time()).toString());
+		todoService.addTodo(getUsername(), todo.getTodo(), todo.getDesc(), sdf.format(new Date()), (new Time()).toString());
 		return "redirect:/todo-list";
 	}
 
@@ -69,7 +75,7 @@ public class TodoController {
 	public String updateTodo(ModelMap model, @Valid Todo todo, BindingResult result){
 		if(result.hasErrors()) return "redirect:/add-todo";
 		Date date = new Date();
-		todo.setUser(getUsername(model));
+		todo.setUser(getUsername());
 		todo.setCurr_date(sdf.format(date));
 		System.out.println(sdf.format(date));
 		todo.setCurr_time((new Time()).toString());
