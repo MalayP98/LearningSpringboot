@@ -30,6 +30,7 @@ public class TodoService {
 		List<Todo> userTodo = new ArrayList<>();
 		if(!todoList.isEmpty()){
 			for(Todo todo : todoList) {
+				if(todo.getUser().isEmpty()) continue;
 				if(todo.getUser().equals(user)) userTodo.add(todo);
 			}
 		}

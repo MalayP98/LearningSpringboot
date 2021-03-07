@@ -11,6 +11,19 @@
 </head>
 
 <body>
+
+	<nav role="navigation" class="navbar navbar-default">
+		<div class="">
+			<a class="navbar-brand">TODO Application</a>
+		</div>
+		<div class="navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="/">Home</a></li>
+				<li><a href="/todo-list">Todos</a></li>
+			</ul>
+		</div>
+	</nav>
+
 	<div class="container">
 		<form:form method="post" modelAttribute="todo">
 			<form:hidden path="id"/>

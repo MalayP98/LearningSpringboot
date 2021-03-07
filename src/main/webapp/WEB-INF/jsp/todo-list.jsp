@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <html>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -12,14 +13,26 @@
 
 	<body>
 
-		<div class="container">
+		<nav role="navigation" class="navbar navbar-default">
+			<div class="">
+				<a class="navbar-brand">TODO Application</a>
+			</div>
+			<div class="navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="/">Home</a></li>
+					<li><a href="/todo-list">Todos</a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<div class="container"> 
 			<h1> The List is : </h1>
 			<table class="table">
 				<thead>
 					<tr>
 						<th>Todo</th>
 						<th>Description</th>
-						<th>Date</th>
+						<th>Added On</th>
 						<th></th>
 						<th></th>
 					</tr>
@@ -37,7 +50,7 @@
 					</c:forEach>
 				</tbody>
 			</table>
-			<a href="add-todo"> Add Todo </a>
+			<a href="/add-todo"> Add Todo </a>
 		</div>
 
 	</body>

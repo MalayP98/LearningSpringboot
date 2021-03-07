@@ -1,5 +1,6 @@
 package com.springwebapp.learningspring.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -24,17 +25,23 @@ public class TodoController {
 	
 	@Autowired
 	TodoService todoService;
+
+	SimpleDateFormat sdf = new SimpleDateFormat("E, MMMM yyyy");
 	
 	@RequestMapping(value="/todo-list", method=RequestMethod.GET)
 	public String showList(ModelMap model){
-		List<Todo> todoList = todoService.showTodos((String)model.get("name"));
+		List<Todo> todoList = todoService.showTodos(getUsername(model));
 		model.addAttribute("todoList", todoList);
 		return "todo-list";
+	}
+
+	private String getUsername(ModelMap model) {
+		return (String)model.get("name");
 	}
 	
 	@RequestMapping(value="/add-todo", method=RequestMethod.GET)
 	public String addTodoPage(ModelMap model) {
-		model.addAttribute("todo", new Todo(0, (String)model.get("name"), "", "", (new Date()).toString(), (new Time()).toString(), false));
+		model.addAttribute("todo", new Todo(0, getUsername(model), "", "", "" , "", false));
 		return "add-todo";
 	}
 
@@ -47,14 +54,13 @@ public class TodoController {
 	@RequestMapping(value="/add-todo", method=RequestMethod.POST)
 	public String addTodo(ModelMap model, @Valid Todo todo, BindingResult result) {
 		if(result.hasErrors()) return "redirect:/add-todo";
-		todoService.addTodo((String)model.get("name"), todo.getTodo(), todo.getDesc(), todo.getCurr_date(), todo.getCurr_time());
+		todoService.addTodo(getUsername(model), todo.getTodo(), todo.getDesc(), sdf.format(new Date()), (new Time()).toString());
 		return "redirect:/todo-list";
 	}
 
 	@RequestMapping(value="update-todo", method=RequestMethod.GET)
 	public String update(ModelMap model, int id){
 		Todo todo = todoService.updateTodo(id);
-		System.out.println("Todo being sent to the form is = " + todo);
 		model.addAttribute("todo", todo);
 		return "add-todo";
 	}
@@ -62,7 +68,11 @@ public class TodoController {
 	@RequestMapping(value="update-todo", method=RequestMethod.POST)
 	public String updateTodo(ModelMap model, @Valid Todo todo, BindingResult result){
 		if(result.hasErrors()) return "redirect:/add-todo";
-		todo.setUser((String) model.get("name"));
+		Date date = new Date();
+		todo.setUser(getUsername(model));
+		todo.setCurr_date(sdf.format(date));
+		System.out.println(sdf.format(date));
+		todo.setCurr_time((new Time()).toString());
 		todoService.updateTodo(todo);
 		return "redirect:/todo-list";
 	}
